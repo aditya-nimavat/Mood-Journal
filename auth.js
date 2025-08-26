@@ -1,17 +1,18 @@
 // PASTE YOUR FIREBASE CONFIG OBJECT HERE
-  const firebaseConfig = {
-    apiKey: "AIzaSyCWOXIiag2S6fyuQB_ndO8LA8NAmXwPp6A",
-    authDomain: "clinical-mood.firebaseapp.com",
-    projectId: "clinical-mood",
-    storageBucket: "clinical-mood.firebasestorage.app",
-    messagingSenderId: "46969536685",
-    appId: "1:46969536685:web:63aa3864a2a9d837c50624",
-    measurementId: "G-XPZLC19SRV"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyCWOXIiag2S6fyuQB_ndO8LA8NAmXwPp6A",
+  authDomain: "clinical-mood.firebaseapp.com",
+  projectId: "clinical-mood",
+  storageBucket: "clinical-mood.firebasestorage.app",
+  messagingSenderId: "46969536685",
+  appId: "1:46969536685:web:63aa3864a2a9d837c50624",
+  measurementId: "G-XPZLC19SRV"
+};
 
-// Initialize Firebase
- const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
+// CORRECT INITIALIZATION for our project (v8 syntax)
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+
 // --- Register Logic ---
 const registerForm = document.getElementById('register-form');
 if (registerForm) {
@@ -22,6 +23,7 @@ if (registerForm) {
 
         auth.createUserWithEmailAndPassword(email, password)
             .then((userCredential) => {
+                // Registered and signed in
                 console.log('User registered:', userCredential.user);
                 window.location.href = 'index.html'; // Redirect to main app
             })
@@ -41,6 +43,7 @@ if (loginForm) {
 
         auth.signInWithEmailAndPassword(email, password)
             .then((userCredential) => {
+                // Signed in
                 console.log('User logged in:', userCredential.user);
                 window.location.href = 'index.html'; // Redirect to main app
             })
