@@ -1,0 +1,229 @@
+/* --- 1. Global Setup & Variables --- */
+:root {
+    --font-family: 'Inter', sans-serif;
+    --bg-color: #f8f9fa;
+    --surface-color: #ffffff;
+    --text-color: #212529;
+    --text-light: #6c757d;
+    --primary-color: #5e72e4; /* A calming, professional blue */
+    --primary-light: #8292f2;
+    --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 7px 14px rgba(50, 50, 93, 0.08), 0 3px 6px rgba(0, 0, 0, 0.06);
+    --border-radius: 16px;
+    --transition-speed: 0.4s;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    overflow-x: hidden;
+}
+
+/* --- 2. Scrollytelling Layout --- */
+#scrolly-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.sticky-panel {
+    grid-column: 1 / 2;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.visual-content-container {
+    position: relative;
+    width: 90%;
+    height: 90%;
+}
+
+.visual-card {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: var(--surface-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transform: scale(0.95) translateY(20px);
+    transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease;
+    pointer-events: none;
+}
+
+.visual-card.active-visual {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    pointer-events: auto;
+}
+
+.scrolling-steps {
+    grid-column: 2 / 3;
+    padding: 5vh 0;
+}
+
+.step {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.step-content {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    transition: background var(--transition-speed);
+}
+
+.step.is-active .step-content {
+    background: var(--surface-color);
+    box-shadow: var(--shadow-md);
+}
+
+h2 { font-size: 2rem; font-weight: 600; }
+h3 { font-size: 1.5rem; font-weight: 500; margin-bottom: 0.5rem; }
+p { color: var(--text-light); line-height: 1.6; }
+
+/* --- 3. Visual Card Content Styling --- */
+
+.calendar-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+.calendar-header h2 { font-size: 1.25rem; font-weight: 500; margin: 0; }
+.calendar-header button { background: transparent; border: none; color: var(--primary-color); font-size: 2rem; cursor: pointer; transition: transform var(--transition-speed); }
+.calendar-header button:hover { transform: scale(1.2); }
+
+.calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.5rem; width: 100%;}
+.weekday { font-weight: 500; color: var(--text-light); text-align: center; font-size: 0.9rem; }
+.day { font-weight: 500; aspect-ratio: 1 / 1; display: flex; justify-content: center; align-items: center; border-radius: 50%; cursor: pointer; position: relative; transition: all var(--transition-speed); }
+.day:not(.empty):hover { background-color: #e9ecef; }
+.day.selected { background-color: var(--primary-color) !important; color: white; transform: scale(1.1); }
+.mood-dot { position: absolute; bottom: 15%; width: 8px; height: 8px; border-radius: 50%; border: 2px solid var(--surface-color); }
+
+#colorPieContainer { display: flex; justify-content: center; align-items: center; }
+.color-slice { cursor: pointer; transition: all var(--transition-speed); stroke: var(--surface-color); stroke-width: 3px; }
+.color-slice:hover { transform: scale(1.05); transform-origin: center; }
+.color-slice.selected { transform: scale(1.08); transform-origin: center; stroke: var(--primary-color); stroke-width: 5px; }
+
+.chart-wrapper { position: relative; width: 100%; flex-grow: 1; }
+.chart-wrapper h3 { text-align: center; font-weight: 500; }
+.chart-wrapper:first-child { height: 65%; }
+.chart-wrapper:last-child { height: 25%; }
+
+/* --- 4. Step Content Styling --- */
+.selected-date-display { text-align: center; background-color: var(--bg-color); padding: 0.5rem; border-radius: 8px; margin: 1rem 0; }
+
+.mood-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    margin-top: 1rem;
+}
+.mood {
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+    padding: 0.6rem 1.2rem;
+    border-radius: 20px;
+    border: 1px solid #e0e0e0;
+    background-color: #f8f9fa;
+    transition: all var(--transition-speed);
+}
+.mood:hover {
+    background-color: #e9ecef;
+    border-color: #ccc;
+    transform: translateY(-2px);
+}
+.mood.selected {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.medication-check { margin: 2rem 0; display: flex; align-items: center; font-size: 1.1rem; }
+.medication-check input { width: 1.5em; height: 1.5em; margin-right: 0.75rem; accent-color: var(--primary-color); }
+
+#saveBtn, #logoutBtn { width: 100%; padding: 1rem; font-size: 1rem; font-weight: 600; background: var(--primary-color); color: white; border: none; border-radius: 8px; cursor: pointer; transition: all var(--transition-speed); }
+#saveBtn:hover, #logoutBtn:hover { background: var(--primary-light); transform: translateY(-2px); }
+
+#logoutBtn { margin-top: 1rem; background: var(--text-light); }
+#logoutBtn:hover { background: var(--text-color); }
+
+/* --- 5. Responsive Design --- */
+@media (max-width: 900px) {
+    body { padding: 0; }
+    #scrolly-container { display: block; }
+    .sticky-panel { position: sticky; top: 0; z-index: 10; width: 100%; height: 45vh; border-radius: 0; }
+    .visual-content-container { width: 100%; height: 100%; padding: 1rem; }
+    .scrolling-steps { padding: 1rem; position: relative; z-index: 5; background-color: var(--bg-color); }
+    .step { min-height: auto; padding-bottom: 50vh; }
+    .step-content { background: var(--surface-color); box-shadow: var(--shadow-md); }
+}
+
+/* --- 6. Custom Chart Tooltip --- */
+#custom-tooltip {
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    background: rgba(33, 37, 41, 0.9);
+    color: white;
+    border-radius: 8px;
+    padding: 0.75rem;
+    font-size: 0.9rem;
+    transition: opacity 0.2s ease;
+    box-shadow: var(--shadow-md);
+    min-width: 150px;
+}
+.tooltip-body .tooltip-title { font-weight: 600; margin-bottom: 0.5rem; display: block; }
+.tooltip-line { display: flex; align-items: center; margin-top: 0.25rem; }
+.tooltip-swatch { width: 12px; height: 12px; border-radius: 3px; margin-right: 0.5rem; border: 1px solid rgba(255, 255, 255, 0.5); }
+
+/* --- 7. Authentication Page Styles --- */
+.auth-body { display: flex; justify-content: center; align-items: center; height: 100vh; background-color: var(--bg-color); }
+.auth-card { background: var(--surface-color); padding: 2.5rem; border-radius: var(--border-radius); box-shadow: var(--shadow-md); width: 100%; max-width: 400px; text-align: center; }
+.auth-card h2 { margin-top: 0; margin-bottom: 2rem; font-weight: 600; }
+.auth-card form { display: flex; flex-direction: column; gap: 1rem; }
+.auth-card input { font-family: var(--font-family); font-size: 1rem; padding: 0.8rem; border: 1px solid #ced4da; border-radius: 8px; }
+.auth-card button { padding: 1rem; font-size: 1rem; font-weight: 600; background: var(--primary-color); color: white; border: none; border-radius: 8px; cursor: pointer; transition: all var(--transition-speed); }
+.auth-card button:hover { background: var(--primary-light); transform: translateY(-2px); }
+.auth-card p { margin-top: 2rem; }
+.auth-card a { color: var(--primary-color); font-weight: 500; text-decoration: none; }
+
+/* --- 8. Mood Background Colors --- */
+.day[data-mood='10'] { background-color: #ff0000; color: #fff; }
+.day[data-mood='9'] { background-color: #ff4400; color: #fff; }
+.day[data-mood='8'] { background-color: #ff8400; color: #fff; }
+.day[data-mood='7'] { background-color: #ffc800; color: #fff; }
+.day[data-mood='6'] { background-color: #fffb00; color: #fff; }
+.day[data-mood='5'] { background-color: #a2d93b; color: #fff; }
+.day[data-mood='4'] { background-color: #00ff40; color: #fff; }
+.day[data-mood='3'] { background-color: #00ffa6; color: #fff; }
+.day[data-mood='2'] { background-color: #6f6cff; color: #fff; }
+.day[data-mood='1'] { background-color: #1e00ff; color: #fff; }

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinical Mood Journal</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <main id="scrolly-container">
+        <div class="sticky-panel">
+            <div class="visual-content-container">
+                <div class="visual-card active-visual" data-visual="calendar">
+                    <div class="calendar-header">
+                        <button id="prevMonthBtn" title="Previous Month">‹</button>
+                        <h2 id="currentMonthYear"></h2>
+                        <button id="nextMonthBtn" title="Next Month">›</button>
+                    </div>
+                    <div class="calendar-grid" id="calendarGrid"></div>
+                </div>
+                <div class="visual-card" data-visual="colorWheel">
+                     <div id="colorPieContainer"></div>
+                </div>
+                <div class="visual-card" data-visual="charts">
+                    <div class="chart-wrapper">
+                        <h3>Mood Trend</h3>
+                        <canvas id="moodChart"></canvas>
+                    </div>
+                    <div class="chart-wrapper">
+                        <h3>Color Flow</h3>
+                        <canvas id="colorTrendChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="scrolling-steps">
+            <section class="step" data-step="1">
+                <div class="step-content">
+                    <h2>Daily Check-in</h2>
+                    <p>Welcome. Please select a day from the calendar to begin your entry.</p>
+                    <p class="selected-date-display">For: <strong id="selectedDate">No date selected</strong></p>
+                </div>
+            </section>
+            <section class="step" data-step="2">
+                <div class="step-content">
+                    <h3>How are you feeling right now?</h3>
+                    <p>Select the option that best represents your primary mood.</p>
+                    <div class="mood-options" id="moodOptions"></div>
+                </div>
+            </section>
+            <section class="step" data-step="3" data-trigger-visual="colorWheel">
+                <div class="step-content">
+                    <h3>What color is that feeling?</h3>
+                    <p>There is no right or wrong answer. Choose the color that feels true to you today.</p>
+                </div>
+            </section>
+            <section class="step" data-step="4">
+                <div class="step-content">
+                    <h3>Medication</h3>
+                    <p>One last thing. Please confirm if you've taken your prescribed medication today.</p>
+                    <div class="medication-check">
+                        <input type="checkbox" id="medsTakenCheckbox">
+                        <label for="medsTakenCheckbox">I took my medication today.</label>
+                    </div>
+                    <button id="saveBtn">Complete & Save Entry</button>
+                </div>
+            </section>
+            
+            <section class="step" data-step="5" data-trigger-visual="charts">
+                <div class="step-content">
+                    <h2>Thank You</h2>
+                    <p>Your entry has been logged. You can view your long-term trends on the left.</p>
+                    <button id="logoutBtn">Logout</button> </div>
+            </section>
+        </div>
+    </main>
+    
+    <div id="custom-tooltip" class="chartjs-tooltip"><div class="tooltip-body"></div></div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+    <script src="chart.umd.js"></script>
+    <script src="scrollama.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
