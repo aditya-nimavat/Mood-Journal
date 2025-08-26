@@ -1,4 +1,4 @@
-// PASTE YOUR FIREBASE CONFIG OBJECT HERE
+// PASTE YOUR FIREBASE CONFIG OBJECT HERE hihi
 const firebaseConfig = {
   apiKey: "AIzaSyCWOXIiag2S6fyuQB_ndO8LA8NAmXwPp6A",
   authDomain: "clinical-mood.firebaseapp.com",
@@ -52,3 +52,4 @@ if (loginForm) {
             });
     });
 }
+
